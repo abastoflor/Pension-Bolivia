@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Gastos{% endblock title %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-center mb-4">
+<h1 class="h3 mb-0 text-gray-800 text-center" >Gastos</h1>
+</div>
+<a class="h6 mx-5 text-primary" href="{% url 'gastos:gasto_nuevo' %}"><i class="fa fa-plus"> Agregar gasto</i></a>
+<br>
+<div class="row">
+    <div class="col-xl-3 col-md-6 m-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    LOS GASTOS DEBEN MOSTRARSE POR FECHA Y TODOS (TABLAS)
+                    <div class="col mr-2">
+                        {% if object_list %}
+                        {% for gasto in object_list %}
+                        <div class="h6 font-weight-bold text-primary text-uppercase mb-1">
+                            <a class="fa fa-info-circle text-decoration-none" href="{% url 'gastos:gasto_editar' gasto.id %}"> {{gasto.motivo}}</a>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="font-weight-bold text-primary mb-1">
+                            No hay gastos
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page level plugins -->
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+{% endblock content %}

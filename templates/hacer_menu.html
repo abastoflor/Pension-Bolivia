@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}
+Hacer Menú{% endblock %}
+{% load mathfilters %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-7">
+            {% if menu %}
+            <div class="card bg-dark">
+                <div class="card-header">
+                    <h5>Menú para {{menu}} Ya existe.</h5>
+                    <a href="{% url 'ver_menu' %}">Ver</a>
+                </div>
+                {% else %}
+                <div class="card bg-dark">
+                    <div class="card-header">
+                        <h5>Seleccione producto</h5>
+                    </div>
+                    <div class="card-body">
+                        <table id="table" class="table table-bordered table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tipo in tipos %}
+                                <tr>
+                                    <td>{{tipo.producto.nombre}}</td>
+                                    <td><a href="#" class=""
+                                        onclick="addMenu({{tipo.id}}, '{{tipo.producto.nombre}}', '{{tipo.nombre}}')">
+                                        {{ tipo.nombre }}
+                                    </a></td>
+                                    
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card bg-dark">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title text-center"><strong>Menu</strong></h4>
+                                        <p class="h5 text-center">{{fecha}}</p>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <td><strong></strong></td>
+                                                        <td class=""><strong></strong></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="resumen">
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-group special" role="group">
+                            {% csrf_token %}
+                            <button type="button" class="btn btn-success"
+                                onclick="postMenu('{% url 'ordenMenu' %}')">Guardar</button>
+                            <button type="button" class="btn btn-warning" onclick="limpiarProductos()">Borrar</button>
+                            <button type="button" class="btn btn-danger"
+                                onclick="location.href='{% url 'ventas:pos' %}'">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <script src="{% static 'js/menu.js' %}"></script>
+
+    {% endblock %}

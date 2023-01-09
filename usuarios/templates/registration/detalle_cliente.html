@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}{{obj.first_name}} {{obj.last_name}}{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-5 col-md-6">
+        <div class="card border-left-success ml-4 shadow h-100">
+            <div class="card-body bg-dark">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="font-weight-bold text-gray-700">
+                            <div class="d-sm-flex align-items-center justify-content-between">
+                                <span class="h3 text-gray">{{obj.first_name}} {{obj.last_name}}<a href="{% url 'usuarios:editar_cliente' obj.id %}"><small class="h6"> Editar cliente</small> </a></span>
+                                <a href="{% url 'cuentas:cuenta_nueva' obj.id %}">Pensionar</a>
+                            </div>
+                            <p class="h6">
+                                Dirección: {{obj.direccion}}
+                            </p>
+                            <p class="h6">
+                                Teléfono: {{obj.telefono}}
+                            </p>
+                            <p class="h6">
+                                Verificado: {{obj.verificado|yesno:'Sí,No'}}
+                            </p>
+                            <span>Detalle de cuentas activas: </span>
+                            {% for k, v in activas %}
+                            <a href="{% url 'cuentas:detalle_cuenta' v %}">{{v}} </a>|
+                            {% endfor %}
+                            <br>
+                            <span>Cuentas inactivas: </span>
+                                {% for k, v in inactivo %}
+                                <a href="{% url 'cuentas:detalle_cuenta' v %}">{{v}}</a>| 
+                                {% endfor %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

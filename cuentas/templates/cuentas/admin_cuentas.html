@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{cuenta.cliente.first_name}} - {{cuenta.cliente.last_name}}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <span class="h3">{{ cuenta.cliente.first_name }} {{cuenta.cliente.last_name}}</span><br>
+          <span class="h5">Cuenta N°: {{cuenta.id}}</span><br>
+          <hr>
+          <span class="h5">Total: {{cuenta.total}} Bs.</span><br>
+          <span class="h5">Adelanto: {{cuenta.adelanto}} Bs.</span><br>
+          <span class="h5">Saldo: {{cuenta.saldo}} Bs.</span><br>
+
+        </div>
+      </div>
+
+      <div class="card bg-dark">
+        <div class="card-header">
+          <h5>Productos</h5>
+        </div>
+        <div class="card-body">
+          {% for producto in productos %}
+          <a href="#" class="btn btn-outline-primary btn-sm"
+            onclick="agregarProducto({{producto.id}}, '{{producto.nombre}} | {{producto.precio}}Bs.', '{{producto.cantidad}}')">
+            {{ producto.nombre }}-{{producto.medida}}-{{producto.marca}} - {{producto.precio}}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><strong>Orden</strong></h4>
+                </div>
+                <div class="panel-body">
+                  <div class="table-responsive">
+                    <table class="table table-condensed">
+                      <thead>
+                        <tr>
+                          <td><strong>Item</strong></td>
+                          <td class="text-right"><strong>Cantidad</strong></td>
+                        </tr>
+                      </thead>
+                      <tbody id="resumen">
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="btn-group special" role="group">
+            {% csrf_token %}
+            <button type="button" class="btn btn-success" onclick="postOrden('{% url 'cuentas:orden' %}', '{{cuenta.id}}')">Guardar</button>
+            <button type="button" class="btn btn-warning" onclick="limpiarItems()">Borrar</button>
+            <button type="button" class="btn btn-danger" onclick="location.href='{% url 'cuentas:pensionados' %}'">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/orden.js' %}"></script>
+
+{% endblock %}

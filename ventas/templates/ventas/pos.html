@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+POS{% endblock %}
+{% load mathfilters %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card bg-dark">
+        <div class="btn-group special" role="group">
+          <button type="button" class="btn btn-success" onclick="location.href='{% url 'ventas:ventas' %}'">Ver
+            ventas</button>
+          </div>
+        <div class="card-header">
+          <h5>Seleccione producto</h5>
+        </div>
+        <div class="card-body">
+          {% for producto in productos %}
+          <a href="#" class="btn btn-outline-primary"
+            onclick="addVenta({{producto.id}}, '{{producto.nombre}}', {{producto.precio}})">
+            {{ producto.nombre }}-{{producto.medida}}-{{producto.marca}} - {{producto.precio}}
+          </a>
+          {% endfor %}
+        </div>
+        
+      </div>
+    </div>
+    <div class="col-sm-5">
+      <div class="card bg-dark">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  {% if ventas %}
+                  <h4 class="panel-title"><strong>Venta N°: {{ventas.id|addition:1}} </strong></h4>
+
+                  {% else %}
+                  <h4 class="panel-title"><strong>Venta N°: 1 </strong></h4>
+                  {% endif %}
+                </div>
+                <div class="panel-body">
+                  <div class="table-responsive">
+                    <table class="table table-condensed">
+                      <thead>
+                        <tr>
+                          <td><strong>Producto</strong></td>
+                          <td class="text-right"><strong>Precio</strong></td>
+                        </tr>
+                      </thead>
+                      <tbody id="resumen">
+                        <tr id="total-tr">
+                          <td class="thick-line text-right"><strong>Total: </strong></td>
+                          <td class="thick-line text-right"><strong>Bs. 0 </strong></td>
+                        </tr>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label for="cambio">Efectivo:</label>
+            <input class="text-success form-control bg-warning text-center" style="width: 80px;color:brown" type="text" name="cambio"
+              id="cam" onkeyup="resta()">
+              <label for="resta">Cambio:</label>
+            <input class="display-2 form-control bg-danger text-center" style="width: 80px;" name="resta" id="resta"></input>
+          </div>
+          <br>
+          <div class="btn-group special" role="group">
+            {% csrf_token %}
+            <button type="button" class="btn btn-success"
+              onclick="postOrden('{% url 'ventas:orden' %}')">Guardar</button>
+            <button type="button" class="btn btn-warning" onclick="limpiarProductos()">Borrar</button>
+            <button type="button" class="btn btn-danger"
+              onclick="location.href='{% url 'ventas:pos' %}'">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/ventas.js' %}"></script>
+<script>
+  function resta() {
+    total = document.getElementById('total').innerText;
+    efectivo = document.getElementById('cam').value;
+    cambio = parseFloat(efectivo) - parseFloat(total);
+    document.getElementById('resta').value=cambio;
+
+  }
+</script>
+
+{% endblock %}

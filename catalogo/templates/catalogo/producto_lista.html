@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Productos{% endblock title %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            {% block content %}
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="card">
+                                <div>
+                                    <a class="h6 m-4 text-primary" href="{% url 'catalogo:producto_nuevo' %}"><i class="fa fa-plus"> Agregar producto</i></a>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="table" class="table table-bordered table-striped table-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Medida</th>
+                                                <th>Marca</th>
+                                                <th>Precio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for p in object_list %}
+                                            <tr>
+                                                <td><a class="text-decoration-none" href="{% url 'catalogo:producto_editar' p.id %}"> {{p.nombre}}</a></td>
+                                                <td>{{p.medida}}</td>
+                                                <td>{{p.marca}}</td>
+                                                <td>{{p.precio}} Bs.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+        {% endblock content %}
+    </div>
+</body>
+
+</html>
+
+
+<!-- Page level plugins -->
+    <!-- <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script> -->
+
+    <!-- Page level custom scripts -->
+    <!-- <script src="{% static 'js/demo/datatables-demo.js' %}"></script> -->

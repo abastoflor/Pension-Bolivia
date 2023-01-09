@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+Menú{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 mx-5">
+            {% if menu %}
+            <div class="card bg-dark">
+                <div class="card-header">
+                    <h4 class="text-center">Menú</h4>
+                    <h5 class="text-center">{{fecha}}</h5>
+                    <p class="text-center">Ensalada Buffé y segundos a elección</p>
+                    <table class="table table-striped">
+                        <thead>
+                            {% for m in ordenes %}
+                            <tr>
+                                <td>{{m.tipo.producto}}</td>
+                                <td class=""><strong>{{m.tipo.nombre}}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </thead>
+                    </table>
+                    <a type="button"  class="h5 mx-3 btn btn-danger" href="{% url 'borrar_menu' menu.id %}">Corregir</a>
+                </div>
+
+                
+                {% else %}
+                <div class="card bg-dark">
+                    <div class="card-header">
+                        <h5>Menú no existe.</h5>
+                        <a href="{% url 'hacer_menu' %}">Crear</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% endblock %}

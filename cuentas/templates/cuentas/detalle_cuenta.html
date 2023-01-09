@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}{{cuenta}} {% endblock title %}
+{% block content %}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-7">
+                <button type="button" class="btn btn-primary m-2" onclick="location.href='{% url 'cuentas:admin_cuentas' cuenta.id %}'">Agregar consumo</button>
+                <button type="button" class="btn btn-primary m-2" onclick="location.href='{% url 'usuarios:detalle_cliente' cuenta.cliente.id %}'">Detalle cliente</button>
+                <button type="button" class="btn btn-primary m-2" onclick="location.href='{% url 'cuentas:editar_cuenta' cuenta.id %}'">Editar cuenta</button>
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="table" class="table table-bordered table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span>{{cuenta.cliente}}</span><br>
+                                        <span>Cuenta N°: {{cuenta.id}}</span><br>
+                                        <span>Pensionado por: {{cuenta.usuario_c.first_name}}</span><br>
+                                        <span>Actualizado por: {{cuenta.usuario_m}}</span>
+                                    </th>
+                                    <th>
+                                        <span>Fecha creación: {{cuenta.fecha_c}}</span><br>
+                                        <span>Total: {{cuenta.total}}</span><br>
+                                        <span>Adelanto: {{cuenta.adelanto}}</span><br>
+                                        <span>Saldo: {{cuenta.saldo}}</span><br>
+                                    </th>
+                                    <th class=""></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                                {% for i in ordenitem %}
+                                {% for x in i %}
+                                <tr>
+                                    <td>{{x.timestamp}}</td>
+                                    <td>{{x.producto}}</td>
+                                    <td>{{x.cantidad}}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <div class="col-sm-4">
+                <div class="card bg-dark">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h6 class="panel-title"><strong>Consumo hasta el {{fecha}}</strong></h6>
+                                    </div>
+                          <div class="panel-body">
+                            <div class="table-responsive">
+                              <table class="table table-condensed">
+                                <thead>
+                                  <tr>
+                                    <td><strong>Item</strong></td>
+                                    <td class="text-right"><strong>Total</strong></td>
+                                  </tr>
+                                </thead>
+                                <tbody >
+                                    {% for p, c in productos_total.items %}
+                                  <tr>
+                                    <td class="thick-line text-left"><strong>{{p}}</strong></td>
+                                    <td class="thick-line text-center"><strong>{{c}} </strong></td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+{% endblock content %}

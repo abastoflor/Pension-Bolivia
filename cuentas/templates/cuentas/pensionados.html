@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Pensionados{% endblock title %}
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            {% block content %}
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="card">
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="table" class="table table-bordered table-striped table-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Clientes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for cliente, cuentas in activas.items %}
+                                            <tr>
+                                                <td><a class="h5 text-decoration-none text-primary"
+                                                        href="{% url 'usuarios:detalle_cliente' cliente.cliente.id %}">
+                                                        {{cliente.cliente}}</a>
+                                                    <p class="h6">
+                                                        {% if cuentas %}
+                                                        Agregar consumo a la cuenta: {% for i in cuentas %}
+                                                        <a name="id_cuenta" href="{% url 'cuentas:admin_cuentas' i %}">{{i}} </a>|
+                                                        {% endfor %}
+                                                        {% else %}
+                                                        No tiene cuentas
+                                                        {% endif %}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+
+        {% endblock content %}
+
+    </div>
+</body>
+
+</html>
